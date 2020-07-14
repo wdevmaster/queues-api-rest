@@ -5,7 +5,7 @@
 **Comando de prueba:** 
 `php artisan http:post https://atomic.incfile.com/fakepost`
 Este comando solo ejecuta una sola solicitud a la url
-para hacer varias solicitudes hay que agregar las opcion `queue=`
+para hacer varias solicitudes hay que agregar las opcion `queue=` el comando debe quedar asi
 `php artisan http:post --queue=5 https://atomic.incfile.com/fakepost`
 
 ## Requisitos del servidor
