@@ -1,79 +1,94 @@
-<p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
+# Queues API Rest
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+[TOC]
 
-## About Laravel
+## Requisitos del servidor
+- PHP >= 7.2.5
+- BCMath PHP Extension
+- Fileinfo PHP extension
+- Ctype PHP Extension
+- JSON PHP Extension
+- Mbstring PHP Extension
+- OpenSSL PHP Extension
+- PDO PHP Extension
+- Tokenizer PHP Extension
+- XML PHP Extension
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Instalacion
+1.  Clonar el repositorio
+```bash
+git clone repo
+```
+2.  Luego aceder a la carpeta del proyecto 
+```bash
+cd pathTo/project
+```
+3.  Ejecutar los siguientes comandos:
+```bash
+cp .env.example .env
+```
+> **Nota:** 
+> Si usaras un entorno local ve a la seccion de [Lamp][Lamp]
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Configuracion ENV
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+#### Base de datos entorno local
+En el archivo `.env` configura la base de datos en las siguientes lineas:
+```bash
+DB_DATABASE=
+DB_USERNAME=
+DB_PASSWORD=
+```
+Configurar las colas de trabajo en el archivo `.env`:
+```bash
+QUEUE_CONNECTION=database
+```
 
-## Learning Laravel
+### Permisos
+Si a instalado el proyecto en la carpeta `www` de su servidor es necesario que le de permisos a la carpeta `storage/` y a la `bootstrap/cache` ejecutando en el siquiente comando en la bash
+```bash
+sudo chmod 777 -R storage/ bootstrap/cache/
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Configuracion
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+#### Lamp
+Para configurar el proyecto en un LAMP o otro entornno local solo debes tener [composer](https://getcomposer.org/download/ "composer") installado y ejecutar los siguientes comandos:
+```bash
+composer install 
+php artisan key:generate
+```
+Luego se debe configurar  un vHost si estan en un entorno local o en produccion se debe el domion apuntar a la carpeta `public/` dentro del proyecto.
 
-## Laravel Sponsors
+##### Apache
+Para ello puede usar el siguiente codigo para un ***.htaccess*** si usas [apache](https://httpd.apache.org/ "apache") en la carpeta raiz ( **/** ) del proyecto:
+```bash
+<IfModule mod_rewrite.c>
+	RewriteEngine on
+	RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
+```
+##### Nginx
+Si usas [nginx](https://www.nginx.com/ "nginx") solo deberas  cambiar la configuracion del archivo */etc/nginx/conf.d/default.conf*  por el siguiente codigo:
+```bash
+server {
+    listen 80;
+    index index.php index.html;
+    root /var/www/public;  #Aqui cambias la ruta por donde este el proyecto
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+    location / {
+        try_files $uri /index.php?$args;
+    }
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- [UserInsights](https://userinsights.com)
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
-- [iMi digital](https://www.imi-digital.de/)
-- [Earthlink](https://www.earthlink.ro/)
-- [Steadfast Collective](https://steadfastcollective.com/)
-- [We Are The Robots Inc.](https://watr.mx/)
-- [Understand.io](https://www.understand.io/)
-- [Abdel Elrafa](https://abdelelrafa.com)
-- [Hyper Host](https://hyper.host)
-- [Appoly](https://www.appoly.co.uk)
-- [OP.GG](https://op.gg)
-- [云软科技](http://www.yunruan.ltd/)
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+    location ~ \.php$ {
+        fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        fastcgi_pass app:9000;
+        fastcgi_index index.php;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_param PATH_INFO $fastcgi_path_info;
+    }
+}
+```
+[docker]: https://pandao.github.io/editor.md/en.html#Docker "docker"
+[Lamp]: https://pandao.github.io/editor.md/en.html#Lamp "Lamp"
