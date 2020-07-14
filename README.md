@@ -2,6 +2,12 @@
 
 [TOC]
 
+> **Comando de prueba:** 
+> php artisan http:post https://atomic.incfile.com/fakepost
+> Este comando solo ejecuta una sola solicitud a la url
+> para hacer varias solicitudes hay que agregar las opcion `queue=`
+> php artisan http:post --queue=5 https://atomic.incfile.com/fakepost
+
 ## Requisitos del servidor
 - PHP >= 7.2.5
 - BCMath PHP Extension
