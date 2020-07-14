@@ -3,10 +3,10 @@
 [TOC]
 
 > **Comando de prueba:** 
-> php artisan http:post https://atomic.incfile.com/fakepost
-> Este comando solo ejecuta una sola solicitud a la url
-> para hacer varias solicitudes hay que agregar las opcion `queue=`
-> php artisan http:post --queue=5 https://atomic.incfile.com/fakepost
+`php artisan http:post https://atomic.incfile.com/fakepost`
+Este comando solo ejecuta una sola solicitud a la url
+para hacer varias solicitudes hay que agregar las opcion `queue=`
+`php artisan http:post --queue=5 https://atomic.incfile.com/fakepost`
 
 ## Requisitos del servidor
 - PHP >= 7.2.5
@@ -45,6 +45,9 @@ DB_DATABASE=
 DB_USERNAME=
 DB_PASSWORD=
 ```
+Es necesario ejecutar el comando `php artisan migrate` para que todo funcione sin problemas.
+
+
 Configurar las colas de trabajo en el archivo `.env`:
 ```bash
 QUEUE_CONNECTION=database
